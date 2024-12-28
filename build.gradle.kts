@@ -101,7 +101,7 @@ jreleaser {
       // Skips creating a tag.
       // Useful when the tag was created externally.
       // Defaults to `false`.
-      skipTag = false
+      skipTag = true
 
       // Skips creating a release.
       // Useful when release assets will be handled with an uploader.
