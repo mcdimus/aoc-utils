@@ -114,10 +114,11 @@ jreleaser {
 
       releaseNotes {
         // Generate release notes using GitHub's native support.
-        enabled = true
+        enabled = false
       }
       changelog {
-        enabled = false
+        enabled = true
+        preset = "conventional-commits"
       }
 
       // Update issues upon release.
