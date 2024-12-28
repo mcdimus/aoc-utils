@@ -95,7 +95,7 @@ jreleaser {
     github {
       enabled = true
       repoOwner = "mcdimus"
-      tagName = "${project.version}"
+      tagName = project.version.get()
       overwrite = true
 
       // Skips creating a tag.
@@ -140,6 +140,9 @@ jreleaser {
 
 tasks.check {
   dependsOn("printVersion")
+  doLast {
+    print("Version: ${project.version}")
+  }
 }
 
 publishing {
