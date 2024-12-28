@@ -115,6 +115,9 @@ jreleaser {
         // Generate release notes using GitHub's native support.
         enabled = true
       }
+      changelog {
+        enabled = false
+      }
 
       // Update issues upon release.
       // Adds a label and post a comment to every issue found in the changelog.
