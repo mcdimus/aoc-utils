@@ -1,3 +1,4 @@
+
 import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
@@ -148,7 +149,7 @@ publishing {
       url = uri("https://maven.pkg.github.com/mcdimus/aoc-utils")
       credentials {
         username = System.getenv("GITHUB_ACTOR") ?: "mcdimus"
-        password = System.getenv("GITHUB_TOKEN") ?: throw GradleException("GitHub token is not provided")
+        password = System.getenv("GITHUB_TOKEN") ?: "N/A"
       }
     }
   }
