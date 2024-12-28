@@ -70,6 +70,12 @@ jobs:
           path: build/jreleaser/trace.log
       - name: Publish
         run: ./gradlew publish
+      - name: Delete Package Versions
+        uses: actions/delete-package-versions@v5.0.0
+        with:
+          package-name: 'com.github.mcdimus.aoc.aoc-utils'
+          package-type: 'maven'
+          min-versions-to-keep: 10
 
   dependency-submission:
 
