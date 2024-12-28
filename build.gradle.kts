@@ -90,6 +90,10 @@ detekt {
   allRules = true
 }
 
+semver {
+  createReleaseCommit = false
+}
+
 jreleaser {
   release {
     github {
