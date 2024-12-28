@@ -125,6 +125,13 @@ jreleaser {
         enabled = true
         formatted = Active.ALWAYS
         preset = "conventional-commits"
+        extraProperties = mapOf(
+          "categorizeScopes" to true
+        )
+
+        contributors {
+          enabled = false
+        }
       }
 
       // Update issues upon release.
