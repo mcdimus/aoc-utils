@@ -58,7 +58,8 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
       - name: Tag the release
         run: |
-          git checkout master
+          previousTagName=$(git describe --abbrev=0 --tags)
+          echo "JRELEASER_PREVIOUS_TAG_NAME=$previousTagName" >> $GITHUB_ENV
           ./gradlew printVersion releaseVersion
           git push origin --tags
       - name: Release
