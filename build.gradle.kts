@@ -3,6 +3,7 @@ import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jreleaser.model.Active
 import org.jreleaser.model.api.common.Apply
 
 plugins {
@@ -122,6 +123,7 @@ jreleaser {
       }
       changelog {
         enabled = true
+        formatted = Active.ALWAYS
         preset = "conventional-commits"
       }
 
