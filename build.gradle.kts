@@ -2,15 +2,19 @@ import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jreleaser.model.api.common.Apply
 
 plugins {
   kotlin("jvm") version "2.1.0"
   id("org.jetbrains.kotlinx.kover") version "0.9.0"
   id("io.gitlab.arturbosch.detekt") version "1.23.7"
+  id("com.github.jmongard.git-semver-plugin") version "0.13.0"
+  id("org.jreleaser") version "1.15.0"
+  `maven-publish`
 }
 
 group = "com.github.mcdimus.aoc"
-version = "1.0-SNAPSHOT"
+version = semver.version
 
 repositories {
   mavenCentral()
@@ -83,6 +87,73 @@ kover {
 detekt {
   config.from("config/detekt/detekt.yml")
   allRules = true
+}
+
+jreleaser {
+  release {
+    github {
+      enabled = true
+      repoOwner = "mcdimus"
+      tagName = "${project.version}"
+      overwrite = true
+
+      // Skips creating a tag.
+      // Useful when the tag was created externally.
+      // Defaults to `false`.
+      skipTag = false
+
+      // Skips creating a release.
+      // Useful when release assets will be handled with an uploader.
+      // Defaults to `false`.
+      skipRelease = false
+
+      // Signs commits with the configured credentials.
+      // The Signing section must be configured as well.
+      sign = false
+
+      releaseNotes {
+        // Generate release notes using GitHub's native support.
+        enabled = true
+      }
+
+      // Update issues upon release.
+      // Adds a label and post a comment to every issue found in the changelog.
+      issues {
+        // Enables this feature.
+        // Defaults to `false`.
+        //
+        enabled = true
+
+        // Comment to post on matching issues.
+        comment = "🎉 This issue has been resolved in `{{tagName}}` ([Release Notes]({{releaseNotesUrl}}))"
+
+        // Applies the current milestone to issues
+        applyMilestone = Apply.ALWAYS
+      }
+    }
+  }
+}
+
+tasks.check {
+  dependsOn("printVersion")
+}
+
+publishing {
+  repositories {
+    maven {
+      name = "GitHubPackages"
+      url = uri("https://maven.pkg.github.com/mcdimus/aoc-utils")
+      credentials {
+        username = System.getenv("GITHUB_ACTOR") ?: "mcdimus"
+        password = System.getenv("GITHUB_TOKEN") ?: throw GradleException("GitHub token is not provided")
+      }
+    }
+  }
+  publications {
+    register<MavenPublication>("gpr") {
+      from(components["java"])
+    }
+  }
 }
 
 tasks.wrapper {
