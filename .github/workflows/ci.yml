@@ -57,19 +57,28 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Tag the release
+        id: tag
         run: |
           previousTagName=$(git describe --abbrev=0 --tags)
           echo "JRELEASER_PREVIOUS_TAG_NAME=$previousTagName" >> $GITHUB_ENV
           ./gradlew printVersion releaseVersion
           git push origin --tags
       - name: Release
-        run: ./gradlew jreleaserRelease
+        id: release
+        run: |
+          mkdir -p build/jreleaser
+          ./gradlew jreleaserRelease
       - name: Upload JReleaser trace log
-        if: failure()
+        if: ${{ failure() && steps.release.conclusion == 'failure' }}
         uses: actions/upload-artifact@v4
         with:
           name: jreleaser-trace-log
           path: build/jreleaser/trace.log
+      - name: Delete tag on failure
+        if: ${{ steps.release.conclusion == 'failure' && steps.tag.conclusion == 'success' }}
+        run: |
+          tagName=$(git describe --abbrev=0 --tags)
+          git push origin --delete $tagName
       - name: Publish
         run: ./gradlew publish
       - name: Delete Package Versions
