@@ -1,7 +1,4 @@
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
-name: Java CI with Gradle
+name: Build and Release
 
 on:
   push:
@@ -15,29 +12,44 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-
+      contents: write
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
+      - name: Checkout sources
+        uses: actions/checkout@v4
 
-    # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
-    # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
 
-    - name: Build with Gradle Wrapper
-      run: ./gradlew build
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          dependency-graph: generate-and-submit
+
+      - name: Run Detekt
+        run: ./gradlew detekt
+
+      - name: Upload Detekt SARIF
+        uses: github/codeql-action/upload-sarif@v2
+        if: success() || failure()
+        with:
+          sarif_file: build/reports/detekt/detekt.sarif
+
+      - name: Unit Tests
+        run: ./gradlew test -x detekt
+
+      - name: Build
+        run: ./gradlew build -x detekt -x test
 
   release:
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    if: |
+      github.ref == 'refs/heads/master' 
+      && github.event_name == 'push'
+      && contains(github.event.commits.*.modified, '**/*.kt')
     needs: build
     runs-on: ubuntu-latest
     permissions:
@@ -46,16 +58,20 @@ jobs:
       packages: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout sources
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+
       - name: Tag the release
         id: tag
         run: |
@@ -63,53 +79,32 @@ jobs:
           echo "JRELEASER_PREVIOUS_TAG_NAME=$previousTagName" >> $GITHUB_ENV
           ./gradlew printVersion releaseVersion
           git push origin --tags
+
       - name: Release
         id: release
         run: |
           mkdir -p build/jreleaser
           ./gradlew jreleaserRelease
+
       - name: Upload JReleaser trace log
         if: ${{ failure() && steps.release.conclusion == 'failure' }}
         uses: actions/upload-artifact@v4
         with:
           name: jreleaser-trace-log
           path: build/jreleaser/trace.log
+
       - name: Delete tag on failure
         if: ${{ steps.release.conclusion == 'failure' && steps.tag.conclusion == 'success' }}
         run: |
           tagName=$(git describe --abbrev=0 --tags)
           git push origin --delete $tagName
+
       - name: Publish
         run: ./gradlew publish
+
       - name: Delete Package Versions
         uses: actions/delete-package-versions@v5.0.0
         with:
           package-name: 'com.github.mcdimus.aoc.aoc-utils'
           package-type: 'maven'
-          min-versions-to-keep: 10
-
-  dependency-submission:
-
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-
-    # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
-    # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
-    - name: Generate and submit dependency graph
-      uses: gradle/actions/dependency-submission@v4
-
-      # The dependency review action scans your pull requests for dependency changes,
-      # and will raise an error if any vulnerabilities or invalid licenses are being introduced.
-      # See: https://github.com/actions/dependency-review-action/blob/main/README.md
-    - name: Perform dependency review
-      if: github.event_name == 'pull_request'
-      uses: actions/dependency-review-action@v4
+          min-versions-to-keep: 5

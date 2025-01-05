@@ -93,6 +93,9 @@ kover {
 detekt {
   config.from("config/detekt/detekt.yml")
   allRules = true
+  // set Detekt.basePath on each Detekt Gradle task,
+  // so that GitHub knows where the repository is to place annotations correctly
+  basePath = rootProject.projectDir.absolutePath
 }
 
 semver {
