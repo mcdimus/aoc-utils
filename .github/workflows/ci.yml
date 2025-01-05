@@ -31,7 +31,7 @@ jobs:
           dependency-graph: generate-and-submit
 
       - name: Run Detekt
-        run: ./gradlew detekt
+        run: ./gradlew detekt --scan
 
       - name: Upload Detekt SARIF
         uses: github/codeql-action/upload-sarif@v2
@@ -40,10 +40,10 @@ jobs:
           sarif_file: build/reports/detekt/detekt.sarif
 
       - name: Unit Tests
-        run: ./gradlew test -x detekt
+        run: ./gradlew test -x detekt --scan
 
       - name: Build
-        run: ./gradlew build -x detekt -x test
+        run: ./gradlew build -x detekt -x test --scan
 
   release:
     if: |
@@ -84,7 +84,7 @@ jobs:
         id: release
         run: |
           mkdir -p build/jreleaser
-          ./gradlew jreleaserRelease
+          ./gradlew jreleaserRelease --scan
 
       - name: Upload JReleaser trace log
         if: ${{ failure() && steps.release.conclusion == 'failure' }}
@@ -100,7 +100,7 @@ jobs:
           git push origin --delete $tagName
 
       - name: Publish
-        run: ./gradlew publish
+        run: ./gradlew publish --scan
 
       - name: Delete Package Versions
         uses: actions/delete-package-versions@v5.0.0
