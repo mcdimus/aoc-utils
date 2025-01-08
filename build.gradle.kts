@@ -8,7 +8,7 @@ import org.jreleaser.model.api.common.Apply
 
 plugins {
   kotlin("jvm") version "2.1.0"
-  id("org.jetbrains.kotlinx.kover") version "0.9.0"
+  id("org.jetbrains.kotlinx.kover") version "0.9.1"
   id("io.gitlab.arturbosch.detekt") version "1.23.7"
   id("com.github.jmongard.git-semver-plugin") version "0.13.0"
   id("org.jreleaser") version "1.16.0"
