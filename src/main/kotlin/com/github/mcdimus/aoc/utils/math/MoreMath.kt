@@ -65,6 +65,7 @@ object MoreMath {
       }
 
       val squareRoot = sqrt(n.toDouble()).toLong()
+      @SuppressWarnings("MagicNumber")
       for (i in 3..squareRoot step 2) {
         while (n % i == 0L) {
           add(i)
