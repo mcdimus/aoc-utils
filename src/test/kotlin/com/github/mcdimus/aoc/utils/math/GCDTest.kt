@@ -22,19 +22,19 @@ internal class GCDTest {
   @ParameterizedTest
   @ArgumentsSource(GCDProvider::class)
   fun `gcd of one number`(gcd: GCD) {
-    assertThat(gcd.gcd(Int.MIN_VALUE)).isEqualTo(Int.MIN_VALUE)
-    assertThat(gcd.gcd(-1)).isEqualTo(-1)
-    assertThat(gcd.gcd(0)).isEqualTo(0)
-    assertThat(gcd.gcd(12)).isEqualTo(12)
-    assertThat(gcd.gcd(12423423)).isEqualTo(12423423)
-    assertThat(gcd.gcd(Int.MAX_VALUE)).isEqualTo(Int.MAX_VALUE)
+    assertThat(gcd.gcd(intArrayOf(Int.MIN_VALUE))).isEqualTo(Int.MIN_VALUE)
+    assertThat(gcd.gcd(intArrayOf(-1))).isEqualTo(-1)
+    assertThat(gcd.gcd(intArrayOf(0))).isEqualTo(0)
+    assertThat(gcd.gcd(intArrayOf(12))).isEqualTo(12)
+    assertThat(gcd.gcd(intArrayOf(12423423))).isEqualTo(12423423)
+    assertThat(gcd.gcd(intArrayOf(Int.MAX_VALUE))).isEqualTo(Int.MAX_VALUE)
 
-    assertThat(gcd.gcd(Long.MIN_VALUE)).isEqualTo(Long.MIN_VALUE)
-    assertThat(gcd.gcd(-1L)).isEqualTo(-1L)
-    assertThat(gcd.gcd(0L)).isEqualTo(0L)
-    assertThat(gcd.gcd(12L)).isEqualTo(12L)
-    assertThat(gcd.gcd(12423423L)).isEqualTo(12423423L)
-    assertThat(gcd.gcd(Long.MAX_VALUE)).isEqualTo(Long.MAX_VALUE)
+    assertThat(gcd.gcd(longArrayOf(Long.MIN_VALUE))).isEqualTo(Long.MIN_VALUE)
+    assertThat(gcd.gcd(longArrayOf(-1L))).isEqualTo(-1L)
+    assertThat(gcd.gcd(longArrayOf(0L))).isEqualTo(0L)
+    assertThat(gcd.gcd(longArrayOf(12L))).isEqualTo(12L)
+    assertThat(gcd.gcd(longArrayOf(12423423L))).isEqualTo(12423423L)
+    assertThat(gcd.gcd(longArrayOf(Long.MAX_VALUE))).isEqualTo(Long.MAX_VALUE)
   }
 
   @ParameterizedTest
@@ -76,13 +76,13 @@ internal class GCDTest {
   @ParameterizedTest
   @ArgumentsSource(GCDProvider::class)
   fun `gcd of three positive numbers`(gcd: GCD) {
-    assertThat(gcd.gcd(12, 18, 30)).isEqualTo(6)
-    assertThat(gcd.gcd(10, 15, 25)).isEqualTo(5)
-    assertThat(gcd.gcd(21, 763, 28)).isEqualTo(7)
+    assertThat(gcd.gcd(intArrayOf(12, 18, 30))).isEqualTo(6)
+    assertThat(gcd.gcd(intArrayOf(10, 15, 25))).isEqualTo(5)
+    assertThat(gcd.gcd(intArrayOf(21, 763, 28))).isEqualTo(7)
 
-    assertThat(gcd.gcd(12L, 18L, 30L)).isEqualTo(6L)
-    assertThat(gcd.gcd(10L, 15L, 25L)).isEqualTo(5L)
-    assertThat(gcd.gcd(21L, 763L, 28L)).isEqualTo(7L)
+    assertThat(gcd.gcd(longArrayOf(12L, 18L, 30L))).isEqualTo(6L)
+    assertThat(gcd.gcd(longArrayOf(10L, 15L, 25L))).isEqualTo(5L)
+    assertThat(gcd.gcd(longArrayOf(21L, 763L, 28L))).isEqualTo(7L)
   }
 
   @ParameterizedTest
@@ -108,14 +108,14 @@ internal class GCDTest {
     assertThat(gcd.gcd(12, 1)).isEqualTo(1)
     assertThat(gcd.gcd(1, 18)).isEqualTo(1)
     assertThat(gcd.gcd(7, 11)).isEqualTo(1)
-    assertThat(gcd.gcd(13, 17, 19)).isEqualTo(1)
-    assertThat(gcd.gcd(13, 2, 10, 12312312)).isEqualTo(1)
+    assertThat(gcd.gcd(intArrayOf(13, 17, 19))).isEqualTo(1)
+    assertThat(gcd.gcd(intArrayOf(13, 2, 10, 12312312))).isEqualTo(1)
 
     assertThat(gcd.gcd(12L, 1L)).isEqualTo(1L)
     assertThat(gcd.gcd(1L, 18L)).isEqualTo(1L)
     assertThat(gcd.gcd(7L, 11L)).isEqualTo(1L)
-    assertThat(gcd.gcd(13L, 17L, 19L)).isEqualTo(1L)
-    assertThat(gcd.gcd(13L, 2L, 10L, 12312312L)).isEqualTo(1L)
+    assertThat(gcd.gcd(longArrayOf(13L, 17L, 19L))).isEqualTo(1L)
+    assertThat(gcd.gcd(longArrayOf(13L, 2L, 10L, 12312312L))).isEqualTo(1L)
   }
 
 }

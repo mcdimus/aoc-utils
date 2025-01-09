@@ -2,7 +2,7 @@ package com.github.mcdimus.aoc.utils.math
 
 internal interface GCD {
 
-  fun gcd(vararg longs: Long): Long {
+  fun gcd(longs: LongArray): Long {
     var result = longs[0]
     for (i in 1 until longs.size) {
       result = this.gcd(result, longs[i])
@@ -10,7 +10,7 @@ internal interface GCD {
     return result
   }
 
-  fun gcd(vararg ints: Int): Int {
+  fun gcd(ints: IntArray): Int {
     var result = ints[0]
     for (i in 1 until ints.size) {
       result = this.gcd(result, ints[i])

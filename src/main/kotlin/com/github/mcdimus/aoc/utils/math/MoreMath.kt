@@ -16,7 +16,7 @@ object MoreMath {
    * @param longs The numbers.
    * @return The greatest common divisor of the given numbers.
    */
-  fun gcd(longs: LongArray) = gcd.gcd(*longs)
+  fun gcd(longs: LongArray) = gcd.gcd(longs)
 
   /**
    * Returns the greatest common divisor (GCD) of the given numbers.
@@ -24,7 +24,7 @@ object MoreMath {
    * @param ints The numbers.
    * @return The greatest common divisor of the given numbers.
    */
-  fun gcd(vararg ints: Int) = gcd.gcd(*ints)
+  fun gcd(ints: IntArray) = gcd.gcd(ints)
 
   /**
    * Returns the greatest common divisor (GCD) of the given numbers.
