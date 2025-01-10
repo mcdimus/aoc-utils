@@ -41,7 +41,7 @@ dependencies {
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.4")
   testImplementation("org.junit.jupiter:junit-jupiter-params:5.11.4")
   testImplementation("org.assertj:assertj-core:3.27.2")
-  testImplementation("io.mockk:mockk:1.13.14")
+  testImplementation("io.mockk:mockk:1.13.16")
 }
 
 tasks.test {
