@@ -7,13 +7,13 @@ import org.jreleaser.model.Active
 import org.jreleaser.model.api.common.Apply
 
 plugins {
-  kotlin("jvm") version "2.1.0"
-  id("org.jetbrains.kotlinx.kover") version "0.9.1"
-  id("io.gitlab.arturbosch.detekt") version "1.23.7"
-  id("com.github.jmongard.git-semver-plugin") version "0.13.0"
-  id("org.jreleaser") version "1.16.0"
+  alias(libs.plugins.kotlin)
+  alias(libs.plugins.kover)
+  alias(libs.plugins.detekt)
+  alias(libs.plugins.semver)
+  alias(libs.plugins.jreleaser)
+  alias(libs.plugins.jmh)
   `maven-publish`
-  id("me.champeau.jmh") version "0.7.2"
 }
 
 group = "com.github.mcdimus.aoc"
@@ -38,11 +38,10 @@ java {
 }
 
 dependencies {
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.11.4")
-  testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.4")
-  testImplementation("org.junit.jupiter:junit-jupiter-params:5.11.4")
-  testImplementation("org.assertj:assertj-core:3.27.2")
-  testImplementation("io.mockk:mockk:1.13.16")
+  testRuntimeOnly(libs.junit.jupiter.engine)
+  testImplementation(libs.bundles.junit.jupiter)
+  testImplementation(libs.assertj)
+  testImplementation(libs.mockk)
 }
 
 tasks.test {
@@ -191,7 +190,7 @@ publishing {
 }
 
 jmh {
-  jmhVersion = "1.37"
+  jmhVersion = libs.versions.jmh.get()
   profilers = listOf("gc")
 }
 
