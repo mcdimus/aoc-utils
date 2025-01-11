@@ -9,14 +9,15 @@ import kotlin.math.abs
  *
  * @see EuclideanGCD
  */
-internal object BinaryGCD : GCD {
+internal data object BinaryGCD : GCD {
 
   override fun gcd(a: Long, b: Long): Long {
-    if (a == 0L) return abs(b)
-    if (b == 0L) return abs(a)
-
     var n1 = abs(a)
     var n2 = abs(b)
+
+    if (n1 == 0L) return n2
+    if (n2 == 0L) return n1
+    if (n1 == 1L || n2 == 1L) return 1L
 
     // Count trailing zeros
     var shift = 0
@@ -52,7 +53,5 @@ internal object BinaryGCD : GCD {
     // Restore common factors of 2
     return n1 shl shift
   }
-
-  override fun toString(): String = this.javaClass.simpleName
 
 }
