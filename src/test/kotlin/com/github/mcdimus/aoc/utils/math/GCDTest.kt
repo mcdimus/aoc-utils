@@ -1,6 +1,7 @@
 package com.github.mcdimus.aoc.utils.math
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -17,6 +18,13 @@ internal class GCDTest {
         Arguments.of(BinaryGCD),
       )
     }
+  }
+
+  @ParameterizedTest
+  @ArgumentsSource(GCDProvider::class)
+  fun `gcd of empty array`(gcd: GCD) {
+    assertThatIllegalArgumentException().isThrownBy { gcd.gcd(intArrayOf()) }
+    assertThatIllegalArgumentException().isThrownBy { gcd.gcd(longArrayOf()) }
   }
 
   @ParameterizedTest

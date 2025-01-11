@@ -3,6 +3,7 @@ package com.github.mcdimus.aoc.utils.math
 internal interface GCD {
 
   fun gcd(longs: LongArray): Long {
+    require(longs.isNotEmpty()) { "longs must not be empty" }
     var result = longs[0]
     for (i in 1 until longs.size) {
       result = this.gcd(result, longs[i])
@@ -11,6 +12,7 @@ internal interface GCD {
   }
 
   fun gcd(ints: IntArray): Int {
+    require(ints.isNotEmpty()) { "ints must not be empty" }
     var result = ints[0]
     for (i in 1 until ints.size) {
       result = this.gcd(result, ints[i])
