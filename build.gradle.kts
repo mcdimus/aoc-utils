@@ -13,6 +13,7 @@ plugins {
   id("com.github.jmongard.git-semver-plugin") version "0.13.0"
   id("org.jreleaser") version "1.16.0"
   `maven-publish`
+  id("me.champeau.jmh") version "0.7.2"
 }
 
 group = "com.github.mcdimus.aoc"
@@ -54,6 +55,11 @@ tasks.test {
 }
 
 kover {
+  currentProject {
+    sources {
+      excludedSourceSets.addAll("jmh")
+    }
+  }
   reports {
     total {
       html.onCheck = true
@@ -182,6 +188,11 @@ publishing {
       from(components["java"])
     }
   }
+}
+
+jmh {
+  jmhVersion = "1.37"
+  profilers = listOf("gc")
 }
 
 tasks.wrapper {
