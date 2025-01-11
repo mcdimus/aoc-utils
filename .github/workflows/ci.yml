@@ -60,7 +60,6 @@ jobs:
     if: |
       github.ref == 'refs/heads/master' 
       && github.event_name == 'push'
-      && contains(github.event.commits.*.modified, '**/main/**/*.kt')
     needs: build
     runs-on: ubuntu-latest
     permissions:
@@ -74,16 +73,34 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get changed main Kotlin files
+        id: changed-kt-files
+        uses: tj-actions/changed-files@v45
+        with:
+          files: '**/main/**/*.kt'
+          # NOTE: `since_last_remote_commit: true` is implied by default and falls back to the previous local commit.
+
+      - name: List all changed files
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-kt-files.outputs.all_changed_files }}
+        run: |
+          for file in ${ALL_CHANGED_FILES}; do
+            echo "$file was changed"
+          done
+
       - name: Set up JDK 21
+        if: steps.changed-kt-files.outputs.any_changed == 'true'
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
 
       - name: Setup Gradle
+        if: steps.changed-kt-files.outputs.any_changed == 'true'
         uses: gradle/actions/setup-gradle@v4
 
       - name: Tag the release
+        if: steps.changed-kt-files.outputs.any_changed == 'true'
         id: tag
         run: |
           previousTagName=$(git describe --abbrev=0 --tags)
@@ -92,6 +109,7 @@ jobs:
           git push origin --tags
 
       - name: Release
+        if: steps.changed-kt-files.outputs.any_changed == 'true'
         id: release
         run: |
           mkdir -p build/jreleaser
@@ -111,9 +129,11 @@ jobs:
           git push origin --delete $tagName
 
       - name: Publish
+        if: steps.changed-kt-files.outputs.any_changed == 'true'
         run: ./gradlew publish
 
       - name: Delete Package Versions
+        if: steps.changed-kt-files.outputs.any_changed == 'true'
         uses: actions/delete-package-versions@v5.0.0
         with:
           package-name: 'com.github.mcdimus.aoc.aoc-utils'

@@ -5,7 +5,7 @@ import java.io.FileNotFoundException
 
 /**
  * Reads lines from the given input text file.
- * The file should be located in the classpath and match the `$name.txt` name.
+ * The file should be located in the classpath, and it's name should match the `$name.txt`.
  *
  * @param name The name of the file (without the `.txt` extension) to read from the classpath.
  * @return A list of strings, each representing a line from the file.
