@@ -1,22 +1,22 @@
 version: 2
 updates:
   - package-ecosystem: "github-actions"
-      directory: "/"
-      schedule:
-        interval: "weekly"
-        day: "saturday"
-        time: "10:00"
-        timezone: "Europe/Tallinn"
-      groups:
-        all-actions:
-          patterns: [ "*" ]
-      assignees:
-        - "mcdimus"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "10:00"
+      timezone: "Europe/Tallinn"
+    groups:
+      all-actions:
+        patterns: [ "*" ]
+    assignees:
+      - "mcdimus"
   - package-ecosystem: "gradle"
-      directory: "/"
-      schedule:
-        interval: "daily"
-        time: "10:00"
-        timezone: "Europe/Tallinn"
-      assignees:
-        - "mcdimus"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "10:00"
+      timezone: "Europe/Tallinn"
+    assignees:
+      - "mcdimus"
