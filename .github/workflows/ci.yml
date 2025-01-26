@@ -79,7 +79,7 @@ jobs:
         with:
           files: '**/main/**/*.kt'
           since_last_remote_commit: false
-          base_sha: $(git describe --tags --abbrev=0)
+          base_sha: $(git rev-list -n 1 $(git describe --tags --abbrev=0))
 
       - name: List all changed files
         env:
@@ -126,7 +126,7 @@ jobs:
       - name: Delete tag on failure
         if: ${{ failure() && steps.release.conclusion == 'failure' && steps.tag.conclusion == 'success' }}
         run: |
-          tagName=$(git rev-list -n 1 $(git describe --tags --abbrev=0))
+          tagName=$(git describe --abbrev=0 --tags)
           git push origin --delete $tagName
 
       - name: Publish
