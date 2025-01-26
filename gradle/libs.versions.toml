@@ -2,11 +2,11 @@
 kotlin = "2.1.0"
 kover = "0.9.1"
 detekt = "1.23.7"
-semver = "0.13.0"
+semver = "0.14.0"
 jreleaser = "1.16.0"
 jmh = "0.7.2"
 junit-jupiter = "5.11.4"
-assertj = "3.27.2"
+assertj = "3.27.3"
 mockk = "1.13.16"
 
 [libraries]
