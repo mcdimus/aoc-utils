@@ -126,7 +126,7 @@ jobs:
       - name: Delete tag on failure
         if: ${{ failure() && steps.release.conclusion == 'failure' && steps.tag.conclusion == 'success' }}
         run: |
-          tagName=$(git describe --abbrev=0 --tags)
+          tagName=$(git rev-list -n 1 $(git describe --tags --abbrev=0))
           git push origin --delete $tagName
 
       - name: Publish
