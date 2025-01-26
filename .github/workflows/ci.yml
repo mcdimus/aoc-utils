@@ -73,13 +73,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Resolve base_sha
+        id: resolve-base-sha
+        run: echo "base_sha=$(git rev-list -n 1 $(git describe --tags --abbrev=0))" >> $GITHUB_OUTPUT
+
       - name: Get changed main Kotlin files
         id: changed-kt-files
         uses: tj-actions/changed-files@v45
         with:
           files: '**/main/**/*.kt'
           since_last_remote_commit: false
-          base_sha: $(git rev-list -n 1 $(git describe --tags --abbrev=0))
+          base_sha: ${{ steps.resolve-base-sha.outputs.base_sha }}
 
       - name: List all changed files
         env:
