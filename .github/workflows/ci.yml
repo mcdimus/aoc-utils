@@ -123,7 +123,7 @@ jobs:
           path: build/jreleaser/trace.log
 
       - name: Delete tag on failure
-        if: ${{ steps.release.conclusion == 'failure' && steps.tag.conclusion == 'success' }}
+        if: ${{ failure() && steps.release.conclusion == 'failure' && steps.tag.conclusion == 'success' }}
         run: |
           tagName=$(git describe --abbrev=0 --tags)
           git push origin --delete $tagName
