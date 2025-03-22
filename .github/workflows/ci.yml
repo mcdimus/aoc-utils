@@ -79,7 +79,7 @@ jobs:
 
       - name: Get changed main Kotlin files
         id: changed-kt-files
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@v46
         with:
           files: '**/main/**/*.kt'
           since_last_remote_commit: false
