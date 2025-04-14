@@ -5,7 +5,7 @@ detekt = "1.23.8"
 semver = "0.13.0"
 jreleaser = "1.17.0"
 jmh = "0.7.3"
-junit-jupiter = "5.11.4"
+junit-jupiter = "5.12.2"
 assertj = "3.27.3"
 mockk = "1.13.17"
 
