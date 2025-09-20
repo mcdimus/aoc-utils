@@ -27,7 +27,7 @@ jobs:
       packages: read         # required to fetch internal or private CodeQL packs
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
