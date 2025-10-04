@@ -18,16 +18,16 @@ jobs:
       security-events: write
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '21'
           distribution: 'temurin'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5
         with:
           dependency-graph: generate-and-submit
           build-scan-publish: true
@@ -69,7 +69,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -79,7 +79,7 @@ jobs:
 
       - name: Get changed main Kotlin files
         id: changed-kt-files
-        uses: tj-actions/changed-files@v46
+        uses: tj-actions/changed-files@v47
         with:
           files: '**/main/**/*.kt'
           since_last_remote_commit: false
@@ -95,14 +95,14 @@ jobs:
 
       - name: Set up JDK 21
         if: steps.changed-kt-files.outputs.any_changed == 'true'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '21'
           distribution: 'temurin'
 
       - name: Setup Gradle
         if: steps.changed-kt-files.outputs.any_changed == 'true'
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5
 
       - name: Tag the release
         if: steps.changed-kt-files.outputs.any_changed == 'true'
