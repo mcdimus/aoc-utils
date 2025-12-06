@@ -1,5 +1,13 @@
 package com.github.mcdimus.aoc.utils.cartesian.point
 
+/**
+ * A mutable implementation of the [Point] interface.
+ *
+ * Represents a 2D point with integer coordinates `(x, y)` that can be updated.
+ *
+ * @property x The x-coordinate of the point.
+ * @property y The y-coordinate of the point.
+ */
 @ConsistentCopyVisibility
 data class MutablePoint private constructor(override var x: Int, override var y: Int) : Point<MutablePoint> {
   override fun move(deltaX: Int, deltaY: Int) = MutablePoint(x + deltaX, y + deltaY)

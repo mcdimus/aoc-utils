@@ -4,16 +4,25 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class PointTest {
+class DataPointTest {
 
   @Test
   fun `should destructure correctly`() {
-    val (x, y) = Point.of(11, 22)
+    val (x, y, data) = DataPoint.of(11, 22, "a")
 
     assertThat(x).isEqualTo(11)
     assertThat(y).isEqualTo(22)
-    assertThat(Point.of(11, 22).component1()).isEqualTo(11)
-    assertThat(Point.of(11, 22).component2()).isEqualTo(22)
+    assertThat(data).isEqualTo("a")
+    assertThat(DataPoint.of(11, 22, "a").component1()).isEqualTo(11)
+    assertThat(DataPoint.of(11, 22, "a").component2()).isEqualTo(22)
+    assertThat(DataPoint.of(11, 22, "a").component3()).isEqualTo("a")
+  }
+
+  @Test
+  fun `should return as simple point`() {
+    val dataPoint = DataPoint.of(11, 22, "a")
+
+    assertThat(dataPoint.asPoint()).isEqualTo(Point.of(11, 22))
   }
 
   @Nested
@@ -21,8 +30,8 @@ class PointTest {
 
     @Test
     fun `should calculate Euclidean distance correctly`() {
-      val point1 = Point.of(0, 0)
-      val point2 = Point.of(3, 4)
+      val point1 = DataPoint.of(0, 0, "a")
+      val point2 = DataPoint.of(3, 4, "a")
 
       val distance = point1 distanceTo point2
 
@@ -31,8 +40,8 @@ class PointTest {
 
     @Test
     fun `should calculate Euclidean distance for negative coordinates`() {
-      val point1 = Point.of(-1, -1)
-      val point2 = Point.of(-4, -5)
+      val point1 = DataPoint.of(-1, -1, "a")
+      val point2 = DataPoint.of(-4, -5, "a")
 
       val distance = point1 distanceTo point2
 
@@ -41,7 +50,7 @@ class PointTest {
 
     @Test
     fun `should calculate zero distance for the same point`() {
-      val point1 = Point.of(5, 5)
+      val point1 = DataPoint.of(5, 5, "a")
 
       val distance = point1 distanceTo point1
 
@@ -54,8 +63,8 @@ class PointTest {
 
     @Test
     fun `should calculate Manhattan distance correctly`() {
-      val point1 = Point.of(0, 0)
-      val point2 = Point.of(3, 4)
+      val point1 = DataPoint.of(0, 0, "a")
+      val point2 = DataPoint.of(3, 4, "a")
 
       val distance = point1 manhanttanDistanceTo point2
 
@@ -64,8 +73,8 @@ class PointTest {
 
     @Test
     fun `should calculate Manhattan distance for negative coordinates`() {
-      val point1 = Point.of(-1, -1)
-      val point2 = Point.of(-4, -5)
+      val point1 = DataPoint.of(-1, -1, "a")
+      val point2 = DataPoint.of(-4, -5, "a")
 
       val distance = point1 manhanttanDistanceTo point2
 
@@ -74,7 +83,7 @@ class PointTest {
 
     @Test
     fun `should calculate zero Manhattan distance for the same point`() {
-      val point1 = Point.of(5, 5)
+      val point1 = DataPoint.of(5, 5, "a")
 
       val distance = point1 manhanttanDistanceTo point1
 
@@ -87,7 +96,7 @@ class PointTest {
 
     @Test
     fun `should return zero points within Manhattan distance 0`() {
-      val point = Point.of(0, 0)
+      val point = DataPoint.of(0, 0, "a")
 
       val points = point.getAllPointsWithinManhattanDistance(0)
 
@@ -96,7 +105,7 @@ class PointTest {
 
     @Test
     fun `should return all points within Manhattan distance 1`() {
-      val point = Point.of(0, 0)
+      val point = DataPoint.of(0, 0, "a")
 
       val points = point.getAllPointsWithinManhattanDistance(1)
 
@@ -111,7 +120,7 @@ class PointTest {
 
     @Test
     fun `should return all points within Manhattan distance 2`() {
-      val point = Point.of(0, 0)
+      val point = DataPoint.of(0, 0, "a")
 
       val points = point.getAllPointsWithinManhattanDistance(2)
 
@@ -125,7 +134,7 @@ class PointTest {
 
     @Test
     fun `should return all points within Manhattan distance for a non-origin point`() {
-      val point = Point.of(2, 3)
+      val point = DataPoint.of(2, 3, "a")
 
       val points = point.getAllPointsWithinManhattanDistance(1)
 
@@ -140,7 +149,7 @@ class PointTest {
 
     @Test
     fun `should return only unique points within Manhattan distance`() {
-      val point = Point.of(0, 0)
+      val point = DataPoint.of(0, 0, "a")
 
       val points = point.getAllPointsWithinManhattanDistance(3)
 
@@ -154,19 +163,19 @@ class PointTest {
 
     @Test
     fun `should move the point by deltaX and deltaY`() {
-      assertThat(Point.of(1, 1).move(2, 3)).isEqualTo(Point.of(3, 4))
+      assertThat(DataPoint.of(1, 1, "a").move(2, 3)).isEqualTo(DataPoint.of(3, 4, "a"))
     }
 
     @Test
     fun `should move the point in a specific direction`() {
-      assertThat(Point.of(1, 1).move(Direction.UP)).isEqualTo(Point.of(1, 0))
-      assertThat(Point.of(1, 1).move(Direction.DOWN)).isEqualTo(Point.of(1, 2))
-      assertThat(Point.of(1, 1).move(Direction.LEFT)).isEqualTo(Point.of(0, 1))
-      assertThat(Point.of(1, 1).move(Direction.RIGHT)).isEqualTo(Point.of(2, 1))
-      assertThat(Point.of(1, 1).move(Direction.UP_LEFT)).isEqualTo(Point.of(0, 0))
-      assertThat(Point.of(1, 1).move(Direction.UP_RIGHT)).isEqualTo(Point.of(2, 0))
-      assertThat(Point.of(1, 1).move(Direction.DOWN_LEFT)).isEqualTo(Point.of(0, 2))
-      assertThat(Point.of(1, 1).move(Direction.DOWN_RIGHT)).isEqualTo(Point.of(2, 2))
+      assertThat(DataPoint.of(1, 1, "a").move(Direction.UP)).isEqualTo(DataPoint.of(1, 0, "a"))
+      assertThat(DataPoint.of(1, 1, "a").move(Direction.DOWN)).isEqualTo(DataPoint.of(1, 2, "a"))
+      assertThat(DataPoint.of(1, 1, "a").move(Direction.LEFT)).isEqualTo(DataPoint.of(0, 1, "a"))
+      assertThat(DataPoint.of(1, 1, "a").move(Direction.RIGHT)).isEqualTo(DataPoint.of(2, 1, "a"))
+      assertThat(DataPoint.of(1, 1, "a").move(Direction.UP_LEFT)).isEqualTo(DataPoint.of(0, 0, "a"))
+      assertThat(DataPoint.of(1, 1, "a").move(Direction.UP_RIGHT)).isEqualTo(DataPoint.of(2, 0, "a"))
+      assertThat(DataPoint.of(1, 1, "a").move(Direction.DOWN_LEFT)).isEqualTo(DataPoint.of(0, 2, "a"))
+      assertThat(DataPoint.of(1, 1, "a").move(Direction.DOWN_RIGHT)).isEqualTo(DataPoint.of(2, 2, "a"))
     }
 
   }
@@ -176,27 +185,22 @@ class PointTest {
 
     @Test
     fun `should create a point from x and y`() {
-      val point = Point.of(3, 4)
+      val point = DataPoint.of(3, 4, "a")
 
       assertThat(point.x).isEqualTo(3)
       assertThat(point.y).isEqualTo(4)
+      assertThat(point.data).isEqualTo("a")
     }
 
     @Test
     fun `should create a point from a string representation`() {
-      val point = Point.of("3,4")
+      val point = DataPoint.of(Point.of(3, 4), "a")
 
       assertThat(point.x).isEqualTo(3)
       assertThat(point.y).isEqualTo(4)
+      assertThat(point.data).isEqualTo("a")
     }
 
-    @Test
-    fun `should throw exception for invalid string format`() {
-      val exception = org.junit.jupiter.api.assertThrows<NumberFormatException> {
-        Point.of("invalid,4")
-      }
-
-      assertThat(exception).hasMessageContaining("For input string: \"invalid\"")
-    }
   }
+
 }

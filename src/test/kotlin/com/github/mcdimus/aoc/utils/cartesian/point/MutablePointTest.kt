@@ -195,20 +195,6 @@ class MutablePointTest {
   }
 
   @Nested
-  inner class ComponentFunctionsTests {
-
-    @Test
-    fun `should return x and y as components`() {
-      val point = MutablePoint.of(3, 4)
-
-      val (x, y) = point
-
-      assertThat(x).isEqualTo(3)
-      assertThat(y).isEqualTo(4)
-    }
-  }
-
-  @Nested
   inner class FactoryTests {
 
     @Test
