@@ -38,7 +38,8 @@ java {
 }
 
 dependencies {
-  testRuntimeOnly(libs.junit.jupiter.engine)
+  testRuntimeOnly(libs.bundles.junit.runtime)
+
   testImplementation(libs.bundles.junit.jupiter)
   testImplementation(libs.assertj)
   testImplementation(libs.mockk)
@@ -195,6 +196,6 @@ jmh {
 }
 
 tasks.wrapper {
-  gradleVersion = "8.12.1"
+  gradleVersion = "9.2.1"
   distributionType = Wrapper.DistributionType.ALL
 }

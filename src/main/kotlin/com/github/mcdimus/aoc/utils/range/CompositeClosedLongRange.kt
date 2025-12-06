@@ -44,6 +44,7 @@ class CompositeClosedLongRange {
    * @param index (Optional) The starting index for the merging process. Defaults to `0`.
    * @return The current instance of [CompositeClosedLongRange], allowing for method chaining.
    */
+  @Suppress("LoopWithTooManyJumpStatements")
   fun add(range: LongRange, index: Int = 0): CompositeClosedLongRange {
     if (ranges.isEmpty()) {
       ranges.add(range)
