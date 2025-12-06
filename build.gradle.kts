@@ -115,6 +115,7 @@ jreleaser {
       repoOwner = "mcdimus"
       tagName = project.version.get()
       overwrite = true
+      immutableRelease = true
 
       // Skips creating a tag.
       // Useful when the tag was created externally.
