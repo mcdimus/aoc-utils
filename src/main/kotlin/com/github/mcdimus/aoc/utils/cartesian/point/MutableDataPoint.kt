@@ -12,7 +12,11 @@ package com.github.mcdimus.aoc.utils.cartesian.point
  * @property data The data associated with the point. This property is mutable.
  */
 @ConsistentCopyVisibility
-data class MutableDataPoint<T> private constructor(override var x: Int, override var y: Int, override var data: T) : DataPoint<T> {
+data class MutableDataPoint<T> private constructor(
+  override var x: Int,
+  override var y: Int,
+  override var data: T
+) : DataPoint<T> {
   override fun move(deltaX: Int, deltaY: Int) = MutableDataPoint(x + deltaX, y + deltaY, data)
 
   companion object {
@@ -31,7 +35,8 @@ data class MutableDataPoint<T> private constructor(override var x: Int, override
      *
      * @param point The [Point] whose coordinates will be used for the new [MutableDataPoint].
      * @param data The data to associate with the point.
-     * @return A new instance of [MutableDataPoint] with the same coordinates as the given [Point] and the specified data.
+     * @return A new instance of [MutableDataPoint] with the same coordinates
+     * as the given [Point] and the specified data.
      */
     fun <T> of(point: Point<*>, data: T): MutableDataPoint<T> = MutableDataPoint(point.x, point.y, data)
   }

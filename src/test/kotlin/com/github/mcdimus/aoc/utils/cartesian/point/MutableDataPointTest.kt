@@ -1,5 +1,13 @@
 package com.github.mcdimus.aoc.utils.cartesian.point
 
+import com.github.mcdimus.aoc.utils.cartesian.point.Direction.DOWN
+import com.github.mcdimus.aoc.utils.cartesian.point.Direction.DOWN_LEFT
+import com.github.mcdimus.aoc.utils.cartesian.point.Direction.DOWN_RIGHT
+import com.github.mcdimus.aoc.utils.cartesian.point.Direction.LEFT
+import com.github.mcdimus.aoc.utils.cartesian.point.Direction.RIGHT
+import com.github.mcdimus.aoc.utils.cartesian.point.Direction.UP
+import com.github.mcdimus.aoc.utils.cartesian.point.Direction.UP_LEFT
+import com.github.mcdimus.aoc.utils.cartesian.point.Direction.UP_RIGHT
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -174,14 +182,14 @@ class MutableDataPointTest {
 
     @Test
     fun `should move the point in a specific direction`() {
-      assertThat(MutableDataPoint.of(1, 1, "data").move(Direction.UP)).isEqualTo(MutableDataPoint.of(1, 0, "data"))
-      assertThat(MutableDataPoint.of(1, 1, "data").move(Direction.DOWN)).isEqualTo(MutableDataPoint.of(1, 2, "data"))
-      assertThat(MutableDataPoint.of(1, 1, "data").move(Direction.LEFT)).isEqualTo(MutableDataPoint.of(0, 1, "data"))
-      assertThat(MutableDataPoint.of(1, 1, "data").move(Direction.RIGHT)).isEqualTo(MutableDataPoint.of(2, 1, "data"))
-      assertThat(MutableDataPoint.of(1, 1, "data").move(Direction.UP_LEFT)).isEqualTo(MutableDataPoint.of(0, 0, "data"))
-      assertThat(MutableDataPoint.of(1, 1, "data").move(Direction.UP_RIGHT)).isEqualTo(MutableDataPoint.of(2, 0, "data"))
-      assertThat(MutableDataPoint.of(1, 1, "data").move(Direction.DOWN_LEFT)).isEqualTo(MutableDataPoint.of(0, 2, "data"))
-      assertThat(MutableDataPoint.of(1, 1, "data").move(Direction.DOWN_RIGHT)).isEqualTo(MutableDataPoint.of(2, 2, "data"))
+      assertThat(MutableDataPoint.of(1, 1, "data").move(UP)).isEqualTo(MutableDataPoint.of(1, 0, "data"))
+      assertThat(MutableDataPoint.of(1, 1, "data").move(DOWN)).isEqualTo(MutableDataPoint.of(1, 2, "data"))
+      assertThat(MutableDataPoint.of(1, 1, "data").move(LEFT)).isEqualTo(MutableDataPoint.of(0, 1, "data"))
+      assertThat(MutableDataPoint.of(1, 1, "data").move(RIGHT)).isEqualTo(MutableDataPoint.of(2, 1, "data"))
+      assertThat(MutableDataPoint.of(1, 1, "data").move(UP_LEFT)).isEqualTo(MutableDataPoint.of(0, 0, "data"))
+      assertThat(MutableDataPoint.of(1, 1, "data").move(UP_RIGHT)).isEqualTo(MutableDataPoint.of(2, 0, "data"))
+      assertThat(MutableDataPoint.of(1, 1, "data").move(DOWN_LEFT)).isEqualTo(MutableDataPoint.of(0, 2, "data"))
+      assertThat(MutableDataPoint.of(1, 1, "data").move(DOWN_RIGHT)).isEqualTo(MutableDataPoint.of(2, 2, "data"))
     }
 
     @Test
