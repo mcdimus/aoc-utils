@@ -1,4 +1,5 @@
 @file:Suppress("TooManyFunctions", "ComplexCondition", "TooGenericExceptionThrown")
+
 package com.github.mcdimus.aoc.utils.range
 
 import kotlin.math.max
@@ -36,11 +37,6 @@ fun <T : ClosedRange<Int>> IntRange.touches(other: T): Boolean =
 fun <T : ClosedRange<Long>> LongRange.touches(other: T): Boolean =
   this.endInclusive + 1 == other.start || other.endInclusive + 1 == this.start
 
-fun <T : Comparable<T>> ClosedRange<T>.merge(other: ClosedRange<T>): ClosedRange<T> {
-  require(this.overlaps(other)) { "cannot merge non-overlapping ranges" }
-  return minOf(start, other.start)..maxOf(endInclusive, other.endInclusive)
-}
-
 fun <T : ClosedRange<Int>> IntRange.merge(other: T): IntRange {
   require(this.overlaps(other) || this.touches(other)) { "cannot merge non-overlapping and non-touching ranges" }
   return min(start, other.start)..max(endInclusive, other.endInclusive)
@@ -52,19 +48,9 @@ fun <T : ClosedRange<Long>> LongRange.merge(other: T): LongRange {
 }
 
 fun ClosedRange<Int>.size(): Int {
-  if (this.start == Int.MIN_VALUE && this.endInclusive == Int.MAX_VALUE
-    || this.start == Int.MAX_VALUE && this.endInclusive == Int.MIN_VALUE
-  ) {
-    throw RuntimeException("integer overflow")
-  }
-  return this.endInclusive - this.start + 1
+  return Math.addExact(Math.subtractExact(this.endInclusive, this.start), 1)
 }
 
 fun ClosedRange<Long>.size(): Long {
-  if (this.start == Long.MIN_VALUE && this.endInclusive == Long.MAX_VALUE
-    || this.start == Long.MAX_VALUE && this.endInclusive == Long.MIN_VALUE
-  ) {
-    throw RuntimeException("long overflow")
-  }
-  return this.endInclusive - this.start + 1
+  return Math.addExact(Math.subtractExact(this.endInclusive, this.start), 1)
 }

@@ -147,6 +147,7 @@ class ClosedRangeXTest {
       val range1 = 1..10
       val range2 = 5..15
       assertThat(range1.overlaps(range2)).isTrue
+      assertThat(range2.overlaps(range1)).isTrue
     }
 
     @Test
@@ -154,6 +155,7 @@ class ClosedRangeXTest {
       val range1 = 1..10
       val range2 = 15..20
       assertThat(range1.overlaps(range2)).isFalse
+      assertThat(range2.overlaps(range1)).isFalse
     }
 
     @Test
@@ -225,13 +227,17 @@ class ClosedRangeXTest {
     @Test
     fun `should return true for touching ranges`() {
       assertThat((1..10).touches(11..20)).isTrue
+      assertThat((11..20).touches(1..10)).isTrue
       assertThat((1L..10L).touches(11L..20L)).isTrue
+      assertThat((11L..20L).touches(1L..10L)).isTrue
     }
 
     @Test
     fun `should return false for non-touching ranges`() {
       assertThat((1..10).touches(12..20)).isFalse
+      assertThat((12..20).touches(1..10)).isFalse
       assertThat((1L..10L).touches(12L..20L)).isFalse
+      assertThat((12L..20L).touches(1L..10L)).isFalse
     }
 
     @Test
@@ -299,16 +305,18 @@ class ClosedRangeXTest {
 
     @Test
     fun `should throw exception for boundary values for IntRange`() {
-      val range = Int.MIN_VALUE..Int.MAX_VALUE
-      assertThatThrownBy { range.size() }
-        .hasMessage("integer overflow")
+      assertThatThrownBy { (0..Int.MAX_VALUE).size() }.hasMessage("integer overflow")
+      assertThatThrownBy { (Int.MIN_VALUE..0).size() }.hasMessage("integer overflow")
+      assertThatThrownBy { (Int.MIN_VALUE..Int.MAX_VALUE).size() }.hasMessage("integer overflow")
+      assertThatThrownBy { (Int.MAX_VALUE..Int.MIN_VALUE).size() }.hasMessage("integer overflow")
     }
 
     @Test
     fun `should throw exception for boundary values for LongRange`() {
-      val range = Long.MIN_VALUE..Long.MAX_VALUE
-      assertThatThrownBy { range.size() }
-        .hasMessage("long overflow")
+      assertThatThrownBy { (0L..Long.MAX_VALUE).size() }.hasMessage("long overflow")
+      assertThatThrownBy { (Long.MIN_VALUE..0L).size() }.hasMessage("long overflow")
+      assertThatThrownBy { (Long.MIN_VALUE..Long.MAX_VALUE).size() }.hasMessage("long overflow")
+      assertThatThrownBy { (Long.MAX_VALUE..Long.MIN_VALUE).size() }.hasMessage("long overflow")
     }
   }
 
