@@ -7,7 +7,7 @@ jreleaser = "1.20.0"
 jmh = "0.7.3"
 junit-jupiter = "5.13.3"
 assertj = "3.27.3"
-mockk = "1.13.17"
+mockk = "1.14.7"
 
 [libraries]
 junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
